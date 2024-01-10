@@ -163,6 +163,11 @@ main(int argc, char *argv[])
 	memset(&tms, 0, sizeof(tms));
 
 	if (timestampstr) {
+		if (attributes & EFI_VARIABLE_APPEND_WRITE) {
+			fprintf(stderr, "For append update, timestamp should be zero\n");
+			exit(1);
+		}
+
 		strptime(timestampstr, "%Y-%m-%d %H:%M:%S", &tms);
 		tm = &tms;
 		/* timestamp.Year is from 0 not 1900 as tm year is */
